@@ -55,9 +55,9 @@
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
-    <Content Include="Day 1\D1input.txt" />
-    <None Include="Day 1\D1Prob2.fsx" />
     <None Include="Day 1\D1Prob1.fsx" />
+    <None Include="Day 1\D1Prob2.fsx" />
+    <Content Include="Day 1\D1input.txt" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
