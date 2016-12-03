@@ -61,6 +61,9 @@
     <None Include="Day 2\D2Prob1.fsx" />
     <None Include="Day 2\D2Prob2.fsx" />
     <Content Include="Day 2\D2input.txt" />
+    <None Include="Day 3\D3Prob1.fsx" />
+    <None Include="Day 3\D3Prob2.fsx" />
+    <Content Include="Day 3\D3input.txt" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
