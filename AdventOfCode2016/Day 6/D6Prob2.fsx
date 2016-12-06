@@ -7,4 +7,5 @@ let rec transpose = function
 let charsToString cs =
     new string(Seq.toArray cs)
 
-input |> Array.map Seq.toList |> Array.toList |> transpose |> List.map (List.countBy id >> List.minBy snd) |> List.map fst |> charsToString |> printfn "%A"
+input |> Array.map Seq.toList |> Array.toList |> transpose |> List.map (List.countBy id >> List.minBy snd >> fst)
+ |> charsToString |> printfn "%A"
