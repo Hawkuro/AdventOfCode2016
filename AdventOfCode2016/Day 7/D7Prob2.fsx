@@ -8,15 +8,30 @@ let matchedStrings (r:Regex) (s : string) = r.Matches s |> Seq.cast |> Seq.map (
 let hasABA (str:string) =
     let rec hasABA' cList =
         match cList with
-        | a::b::c::tail when a <> b && a = c -> true
-        | a::b::c::[] -> false
+        | a::b::c::tail when a <> b && a = c -> (true,(a,b)::(snd (hasABA' (b::c::tail))))
+        | a::b::c::[] -> (false,[])
         | head::tail -> hasABA' tail
-        | _ -> false
+        | _ -> (false,[])
     hasABA' (str |> Seq.toList)
 
-let isStringValid (str:string) =
-    (hypernetRegex.Split str,matchedStrings hypernetRegex str |> Seq.map (fun (s:string) -> s.Substring(1,s.Length-2)))
-    |> (fun (a,b) -> (a |> Seq.exists hasABA,b |> Seq.exists hasABA))
-    |> (=) (true,false)
+let hasBAB a b (str:string)=
+    let rec hasBAB' cList =
+        match cList with
+        | x::y::z::tail when x = b && y = a && z = b -> true
+        | x::y::z::[] -> false
+        | head::tail -> hasBAB' tail
+        | _ -> false
+    hasBAB' (str |> Seq.toList)
 
-input |> Seq.filter isStringValid |> Seq.length |> printfn "%A"
+let hasSSL (str:string) =
+    let superNet = hypernetRegex.Split str
+    let hyperNet = matchedStrings hypernetRegex str |> Seq.map (fun (s:string) -> s.Substring(1,s.Length-2))
+    let superNetWithABA = superNet |> Seq.map hasABA |> Seq.filter fst
+    if Seq.length superNetWithABA > 0
+    then
+        Seq.map snd superNetWithABA
+        |> Seq.collect id
+        |> Seq.exists (fun (a,b) -> hyperNet |> Seq.exists (hasBAB a b) )
+    else false
+
+input |> Seq.filter hasSSL |> Seq.length |> printfn "%A"
